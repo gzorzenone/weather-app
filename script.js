@@ -53,8 +53,6 @@ const container = document.querySelector(".container");
 const locationTxt = document.querySelector("#location");
 
 form.addEventListener("submit", (event) => {
-  container.replaceChildren();
-
   (async () => {
     const weatherData = processWeatherData(await getWeatherData(locationTxt.value));
 
@@ -74,12 +72,12 @@ form.addEventListener("submit", (event) => {
 
       const maxTemp = document.createElement("div");
       maxTemp.classList.add("max-temp");
-      maxTemp.textContent = Object.values(weatherData.days[index])[1];
+      maxTemp.textContent = "Max. Temperature: " + Object.values(weatherData.days[index])[1] + "°C";
       card.appendChild(maxTemp);
 
       const minTemp = document.createElement("div");
       minTemp.classList.add("min-temp");
-      minTemp.textContent = Object.values(weatherData.days[index])[2];
+      minTemp.textContent = "Min. Temperature: " + Object.values(weatherData.days[index])[2] + "°C";
       card.appendChild(minTemp);
 
       container.appendChild(card);
