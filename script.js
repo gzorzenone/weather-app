@@ -48,6 +48,43 @@ function processWeatherData(weatherData) {
   );
 }
 
-(async () => {
-  console.log(processWeatherData(await getWeatherData("London")));
-})();
+const form = document.querySelector("form");
+const container = document.querySelector(".container");
+const locationTxt = document.querySelector("#location");
+
+form.addEventListener("submit", (event) => {
+  container.replaceChildren();
+
+  (async () => {
+    const weatherData = processWeatherData(await getWeatherData(locationTxt.value));
+
+    const locationDiv = document.createElement("div");
+    locationDiv.classList.add("location");
+    locationDiv.textContent = weatherData.location;
+    container.appendChild(locationDiv);
+
+    weatherData.days.forEach((value, index) => {
+      const card = document.createElement("div");
+      card.classList.add("card");
+
+      const date = document.createElement("div");
+      date.classList.add("date");
+      date.textContent = Object.values(weatherData.days[index])[0];
+      card.appendChild(date);
+
+      const maxTemp = document.createElement("div");
+      maxTemp.classList.add("max-temp");
+      maxTemp.textContent = Object.values(weatherData.days[index])[1];
+      card.appendChild(maxTemp);
+
+      const minTemp = document.createElement("div");
+      minTemp.classList.add("min-temp");
+      minTemp.textContent = Object.values(weatherData.days[index])[2];
+      card.appendChild(minTemp);
+
+      container.appendChild(card);
+    });
+  })();
+
+  event.preventDefault();
+});
